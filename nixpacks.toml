@@ -1,6 +1,3 @@
-[providers]
-php = "php-8.2"
-
 [variables]
 NIXPACKS_PROVIDER = 'php'
 
