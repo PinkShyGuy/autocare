@@ -1,31 +1,43 @@
 <?php
 // Database Configuration
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'autocare_db');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+// define('DB_HOST', 'localhost');
+// define('DB_NAME', 'autocare_db');
+// define('DB_USER', 'root');
+// define('DB_PASS', '');
 
 class Database {
-    private $host = DB_HOST;
-    private $db_name = DB_NAME;
-    private $username = DB_USER;
-    private $password = DB_PASS;
-    private $conn = null;
+    // private $host = DB_HOST;
+    // private $db_name = DB_NAME;
+    // private $username = DB_USER;
+    // private $password = DB_PASS;
+    // private $conn = null;
+    private $host = getenv('MYSQLHOST');
+    private $user = getenv('MYSQLUSER');
+    private $pass = getenv('MYSQLPASSWORD');
+    private $db   = getenv('MYSQLDATABASE');
+    private $port = getenv('MYSQLPORT');
 
     public function getConnection() {
-        if ($this->conn === null) {
-            try {
-                $this->conn = new PDO(
-                    "mysql:host=" . $this->host . ";dbname=" . $this->db_name,
-                    $this->username,
-                    $this->password
-                );
-                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-                $this->conn->exec("SET NAMES utf8");
-            } catch(PDOException $e) {
-                die("Connection failed: " . $e->getMessage());
-            }
+        // if ($this->conn === null) {
+        //     try {
+        //         $this->conn = new PDO(
+        //             "mysql:host=" . $this->host . ";dbname=" . $this->db_name,
+        //             $this->username,
+        //             $this->password
+        //         );
+        //         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //         $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        //         $this->conn->exec("SET NAMES utf8");
+        //     } catch(PDOException $e) {
+        //         die("Connection failed: " . $e->getMessage());
+        //     }
+        // }
+
+        $conn = mysqli_connect($host, $user, $pass, $db, $port);
+        // Cek koneksi
+        if (!$conn) {
+            // Jika gagal, hentikan skrip dan tampilkan pesan error yang jelas
+            die("Koneksi ke database Railway gagal: " . mysqli_connect_error());
         }
         return $this->conn;
     }
