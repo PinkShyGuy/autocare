@@ -1,5 +1,8 @@
 {
+    "name": "autocare/app",
+    "description": "AutoCare PHP Application",
+    "type": "project",
     "require": {
-        "heroku/heroku-buildpack-php": "^269.0"
+        "php": "^8.3"
     }
 }

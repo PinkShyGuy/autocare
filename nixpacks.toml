@@ -5,7 +5,7 @@ NIXPACKS_PROVIDER = "php"
 nixPkgs = ["php82", "php82Packages.composer"]
 
 [phases.build]
-cmds = ["echo 'Building PHP application...'"]
+cmds = ["composer install --no-dev --optimize-autoloader 2>/dev/null || echo 'No dependencies to install'"]
 
 [phases.start]
-cmd = "cd autocare && php -S 0.0.0.0:$PORT -t ."
+cmd = "php -S 0.0.0.0:$PORT -t ."
