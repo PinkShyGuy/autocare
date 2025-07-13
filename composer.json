@@ -1,5 +1,5 @@
 {
-    "name": "autocare/app",
+    "name": "autocare",
     "description": "AutoCare PHP Application",
     "type": "project",
     "require": {
