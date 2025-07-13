@@ -1,11 +1,12 @@
 # nixpacks.toml
 
-[phases.setup]
-# Definisikan semua paket yang kita butuhkan secara manual.
-# Ini akan menginstal PHP 8.1, Apache, Composer, dan library klien MySQL.
-nixPkgs = [
-  "pkgs.php81",
-  "pkgs.apacheHttpd",
-  "pkgs.composer",
-  "pkgs.libmysqlclient"
-]
+# Gunakan provider PHP versi 8.1
+[providers]
+php = "8.1"
+
+# Modifikasi paket Nix yang diinstal
+[phases.setup.nixPkgs]
+# Hapus Nginx dari paket default untuk menghindari tabrakan
+remove = ["nginx"]
+# Tambahkan Apache sebagai server web
+add = ["pkgs.apacheHttpd"]
