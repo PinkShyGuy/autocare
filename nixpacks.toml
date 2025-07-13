@@ -1,4 +1,4 @@
 # nixpacks.toml
 
-[phases.setup]
-nixPkgs = ["...", "pkgs.apacheHttpd"]
+[providers]
+php = { server = "apache", version = "8.3" }
