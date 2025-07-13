@@ -1,4 +1,9 @@
 # nixpacks.toml
 
+# Tentukan paket sistem yang dibutuhkan
+[phases.setup]
+nixPkgs = ["pkgs.apacheHttpd"]
+
+# Tentukan provider bahasa dan konfigurasinya
 [providers]
-php = { server = "apache", version = "8.3" }
+php = "8.1"
