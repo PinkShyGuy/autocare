@@ -7,7 +7,10 @@ WORKDIR /app
 
 COPY . .
 
+# Make start script executable
+RUN chmod +x start.sh
+
 EXPOSE $PORT
 
-# Start server with verbose error reporting
-CMD ["sh", "-c", "echo 'Starting PHP server on port '$PORT && php -d display_errors=1 -d log_errors=1 -d error_log=/dev/stderr -S 0.0.0.0:$PORT -t . 2>&1"]
+# Use start script
+CMD ["./start.sh"]
