@@ -1,28 +1,41 @@
-FROM php:8.2-apache
+FROM php:8.2-fpm
 
-# Install PDO MySQL extension
-RUN docker-php-ext-install pdo pdo_mysql
-
-# Enable Apache rewrite module
-RUN a2enmod rewrite
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    nginx \
+    && docker-php-ext-install pdo pdo_mysql \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy application files
-COPY . /var/www/html/
+COPY . /var/www/html
 
-# Set proper permissions
+# Set permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Create custom Apache config
-RUN echo "<VirtualHost *:\$PORT>" > /etc/apache2/sites-available/000-default.conf && \
-    echo "    DocumentRoot /var/www/html" >> /etc/apache2/sites-available/000-default.conf && \
-    echo "    ErrorLog \${APACHE_LOG_DIR}/error.log" >> /etc/apache2/sites-available/000-default.conf && \
-    echo "    CustomLog \${APACHE_LOG_DIR}/access.log combined" >> /etc/apache2/sites-available/000-default.conf && \
-    echo "</VirtualHost>" >> /etc/apache2/sites-available/000-default.conf
+# Create Nginx config
+RUN echo "server {" > /etc/nginx/sites-available/default && \
+    echo "    listen \$PORT;" >> /etc/nginx/sites-available/default && \
+    echo "    root /var/www/html;" >> /etc/nginx/sites-available/default && \
+    echo "    index index.php index.html;" >> /etc/nginx/sites-available/default && \
+    echo "    location / {" >> /etc/nginx/sites-available/default && \
+    echo "        try_files \$uri \$uri/ /index.php?\$query_string;" >> /etc/nginx/sites-available/default && \
+    echo "    }" >> /etc/nginx/sites-available/default && \
+    echo "    location ~ \.php\$ {" >> /etc/nginx/sites-available/default && \
+    echo "        fastcgi_pass 127.0.0.1:9000;" >> /etc/nginx/sites-available/default && \
+    echo "        fastcgi_index index.php;" >> /etc/nginx/sites-available/default && \
+    echo "        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;" >> /etc/nginx/sites-available/default && \
+    echo "        include fastcgi_params;" >> /etc/nginx/sites-available/default && \
+    echo "    }" >> /etc/nginx/sites-available/default && \
+    echo "}" >> /etc/nginx/sites-available/default
 
-# Configure Apache to listen on PORT variable
-RUN echo "Listen \$PORT" > /etc/apache2/ports.conf
+# Create startup script
+RUN echo '#!/bin/bash' > /start.sh && \
+    echo 'sed -i "s/\$PORT/$PORT/g" /etc/nginx/sites-available/default' >> /start.sh && \
+    echo 'php-fpm -D' >> /start.sh && \
+    echo 'nginx -g "daemon off;"' >> /start.sh && \
+    chmod +x /start.sh
 
 EXPOSE $PORT
 
-# Start Apache
-CMD ["sh", "-c", "apache2-foreground"]
+CMD ["/start.sh"]
