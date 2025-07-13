@@ -1,0 +1,20 @@
+[buildpack]
+name = "PHP"
+
+	[publish.Ignore]
+	files = [
+		".github/",
+		".gitignore",
+		".rspec_parallel",
+		"support/build/_conf/",
+		"support/build/_docker/",
+		"support/build/_patches/",
+		"support/devcenter/",
+		"support/util/",
+		"test/",
+		"Gemfile",
+		"Gemfile.lock",
+		"hatchet.json",
+		"hatchet.lock",
+		"requirements.txt",
+	]

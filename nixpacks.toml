@@ -1,9 +1,12 @@
 # nixpacks.toml
 
-# Tentukan paket sistem yang dibutuhkan
+# Definisikan provider sebagai sebuah array (sequence)
+providers = ["php"]
+
+# Tambahkan paket Apache di fase setup
 [phases.setup]
 nixPkgs = ["pkgs.apacheHttpd"]
 
-# Tentukan provider bahasa dan konfigurasinya
-[providers]
-php = "8.1"
+# Atur versi PHP menggunakan variabel khusus Nixpacks
+[variables]
+NIXPACKS_PHP_VERSION = "8.1"

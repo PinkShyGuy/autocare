@@ -1,0 +1,54 @@
+{
+    "packages": [
+        {
+            "name": "heroku/heroku-buildpack-php",
+            "version": "v269",
+            "version_normalized": "269.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/heroku/heroku-buildpack-php.git",
+                "reference": "04aa321ffd7a25205f49dfdb949ad9bb3eae9388"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/04aa321ffd7a25205f49dfdb949ad9bb3eae9388",
+                "reference": "04aa321ffd7a25205f49dfdb949ad9bb3eae9388",
+                "shasum": ""
+            },
+            "time": "2025-07-04T14:44:20+00:00",
+            "bin": [
+                "bin/heroku-php-apache2",
+                "bin/heroku-php-nginx"
+            ],
+            "type": "library",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Zuelke",
+                    "email": "dz@heroku.com"
+                }
+            ],
+            "description": "Toolkit for starting a PHP application locally, with or without foreman, using the same config for PHP and Apache2/Nginx as on Heroku",
+            "homepage": "https://github.com/heroku/heroku-buildpack-php",
+            "keywords": [
+                "apache",
+                "apache2",
+                "foreman",
+                "heroku",
+                "nginx",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/heroku/heroku-buildpack-php/issues",
+                "source": "https://github.com/heroku/heroku-buildpack-php/tree/v269"
+            },
+            "install-path": "../heroku/heroku-buildpack-php"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
