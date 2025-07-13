@@ -1,16 +1,28 @@
-FROM php:8.2-cli
+FROM php:8.2-apache
 
 # Install PDO MySQL extension
 RUN docker-php-ext-install pdo pdo_mysql
 
-WORKDIR /app
+# Enable Apache rewrite module
+RUN a2enmod rewrite
 
-COPY . .
+# Copy application files
+COPY . /var/www/html/
 
-# Make start script executable
-RUN chmod +x start.sh
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/html
+
+# Create custom Apache config
+RUN echo "<VirtualHost *:\$PORT>" > /etc/apache2/sites-available/000-default.conf && \
+    echo "    DocumentRoot /var/www/html" >> /etc/apache2/sites-available/000-default.conf && \
+    echo "    ErrorLog \${APACHE_LOG_DIR}/error.log" >> /etc/apache2/sites-available/000-default.conf && \
+    echo "    CustomLog \${APACHE_LOG_DIR}/access.log combined" >> /etc/apache2/sites-available/000-default.conf && \
+    echo "</VirtualHost>" >> /etc/apache2/sites-available/000-default.conf
+
+# Configure Apache to listen on PORT variable
+RUN echo "Listen \$PORT" > /etc/apache2/ports.conf
 
 EXPOSE $PORT
 
-# Use start script
-CMD ["./start.sh"]
+# Start Apache
+CMD ["sh", "-c", "apache2-foreground"]
