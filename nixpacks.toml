@@ -1,3 +1,6 @@
+[variables]
+NIXPACKS_PROVIDER = 'php'
+
 [phases.setup]
 nixPkgs = ['php82', 'php82Packages.composer']
 
