@@ -44,7 +44,7 @@ class Database {
         $this->host = getenv('MYSQLHOST');
         $this->user = getenv('MYSQLUSER');
         $this->pass = getenv('MYSQLPASSWORD');
-        $this->db   = getenv('MYSQLDATABASE');
+        $this->db   = getenv('MYSQL_DATABASE');
         $this->port = getenv('MYSQLPORT');
     }
 
