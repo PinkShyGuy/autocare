@@ -1,9 +1,13 @@
 FROM php:8.2-cli
 
+# Install PDO MySQL extension
+RUN docker-php-ext-install pdo pdo_mysql
+
 WORKDIR /app
 
 COPY . .
 
 EXPOSE $PORT
 
-CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t ."]
+# Start server with verbose error reporting
+CMD ["sh", "-c", "echo 'Starting PHP server on port '$PORT && php -d display_errors=1 -d log_errors=1 -d error_log=/dev/stderr -S 0.0.0.0:$PORT -t . 2>&1"]
