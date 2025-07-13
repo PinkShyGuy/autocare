@@ -1,12 +1,11 @@
 # nixpacks.toml
 
-# Definisikan provider sebagai sebuah array (sequence)
-providers = ["php"]
-
-# Tambahkan paket Apache di fase setup
 [phases.setup]
-nixPkgs = ["pkgs.apacheHttpd"]
-
-# Atur versi PHP menggunakan variabel khusus Nixpacks
-[variables]
-NIXPACKS_PHP_VERSION = "8.1"
+# Definisikan semua paket yang kita butuhkan secara manual.
+# Ini akan menginstal PHP 8.1, Apache, Composer, dan library klien MySQL.
+nixPkgs = [
+  "pkgs.php81",
+  "pkgs.apacheHttpd",
+  "pkgs.composer",
+  "pkgs.libmysqlclient"
+]
